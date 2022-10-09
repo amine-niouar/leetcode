@@ -13,7 +13,7 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize){
     i = -1;
     while(++i < numsSize)
     {
-        x = -1;
+        x = i;
         while(++x < numsSize)
         {
             if((nums[i] + nums[x]) == target && x != i)
