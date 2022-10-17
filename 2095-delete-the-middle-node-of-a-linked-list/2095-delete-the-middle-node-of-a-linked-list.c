@@ -6,6 +6,8 @@
  * };
  */
 
+// My solution
+/*
 int count(struct ListNode* head)
 {
     struct ListNode* current;
@@ -44,5 +46,34 @@ struct ListNode* deleteMiddle(struct ListNode* head){
     next = current->next->next;
     current->next = next;
     //printf("val %i\n",current->val);
+    return (head);
+}
+*/
+
+// Optimized solution and Clean geeksforgeeks
+
+struct ListNode* deleteMiddle(struct ListNode* head){
+        
+    
+    struct ListNode *fast,*slow,*prev;
+    
+    if(head == 0)
+        return (0);
+    
+    if(head->next == 0)
+        return (0);
+    
+    fast = head;
+    slow = head;
+    
+    while(fast != 0 && fast->next != 0)
+    {
+        fast = fast->next->next;
+        prev = slow;
+        slow = slow->next;
+    }
+    
+    prev->next = slow->next;
+    
     return (head);
 }
