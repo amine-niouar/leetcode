@@ -12,55 +12,56 @@ class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
         
-        ListNode *trav1,*trav2,*head,*current,*prev;
+        ListNode *trav1,*trav2,*head,*current;
         
         
         trav1 = list1;
-        prev = 0;
         head = 0;
         trav2 = list2;
+        
+        if(list1 == 0 && list2 == 0)
+            return NULL;
+        
+        if(list1 == 0)
+            return list2;
+        if(list2 == 0)
+            return list1;
+        
+         if(trav1->val <= trav2->val)
+            {
+                head = trav1;             
+                trav1 = trav1->next;
+            }
+            else
+            {
+                head = trav2;
+                trav2 = trav2->next;
+            }
+        
+       
+        current = head;
         
         while(trav1 && trav2)
         {
             if(trav1->val <= trav2->val)
             {
-                current = trav1;
+                current->next = trav1;                
                 trav1 = trav1->next;
             }
             else
             {
-                current = trav2;
+                current->next = trav2;
                 trav2 = trav2->next;
             }
-            if(head == 0)
-                head = current;
-            if(prev)
-                prev->next = current;
-            prev = current;
+            current = current->next;
         }
         
-        while(trav1)
-        {
-            current = trav1;
-            if(head == 0)
-                head = current;
-            if(prev)
-                prev->next = current;
-            prev = current;
-            trav1 = trav1->next;
-        }
+        if(trav1)
+            current->next = trav1;
         
-         while(trav2)
-        {
-            current = trav2;
-            if(head == 0)
-                head = current;
-            if(prev)
-                prev->next = current;
-            prev = current;
-            trav2 = trav2->next;
-        }
-        
+        if(trav2)
+            current->next = trav2;
+       
         return (head);
     }
 };
