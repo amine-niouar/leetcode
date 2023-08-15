@@ -11,72 +11,64 @@
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        int i(0),size(lists.size());
+        int n(lists.size());
         
-        ListNode * current,*head,*prev,*min;
+        if(n == 0)
+            return (0);
         
-        current = 0;
-        prev = 0;
-        head = 0;
-        
-        
-        while(i < size)
+        while(n > 1)
         {
-            min = get_min(lists,size,i);
-            if(i == size && min == 0)
-                break;
-            if(min)
-            {
-                 current = new ListNode(min->val);
-                if(head == 0)
-                    head = current;
-                if(prev)
-                    prev->next = current;
-                prev = current;
-            }
-           
+            for(int i = 0; i < n / 2;i++)
+                lists[i] = mergeTwoLists(lists[i],lists[n-i-1]);
+            n = (n + 1) / 2;
         }
-        
-        if(current)
-            current->next = 0;
-        return (head);
+                                         
+        return lists[0];               
     }
 private:
-   
-    
-    ListNode *get_min(vector<ListNode*>& lists,int size,int &i)
-    {
-        int y(-1),count(0);
-        int lastmin(10000);
-        int chosen;
-        ListNode * current,*tail;
-        
-        tail = 0;
-        chosen = -1;
-        while(++y < size)
-        {
-            current = lists[y];
-            if(current == 0)
-                count++;
-            else if(current->val <= lastmin)
-            {
-                lastmin = current->val;
-                chosen = y;
-                tail = current;
-            }
-        }
-        
-        if(count == size)
-            i = size;
-        
-        if(chosen != -1)
-        {
-            if(lists[chosen]->next == 0)
-                i++;
-            lists[chosen] = lists[chosen]->next;
-        }
-            
-            
-        return (tail);
-    }
+   ListNode * mergeTwoLists(ListNode *l1,ListNode *l2)
+   {
+      if(l1 == 0 && l2 == 0)
+            return (0);
+      if(l1 == 0)
+          return (l2);
+      if(l2 == 0)
+          return (l1);
+      
+      ListNode *head = 0;
+     
+      if(l1->val <= l2->val)
+      {
+          head = l1;
+          l1 = l1->next;
+      }
+      else
+      {
+          head = l2;
+          l2 = l2->next;
+      }
+      
+      ListNode *current = head;
+      
+      while(l1 != 0 && l2 != 0)
+      {
+           if(l1->val <= l2->val)
+           {
+               current->next = l1;
+               l1 = l1->next;
+           }
+           else
+           {
+               current->next = l2;
+               l2 = l2->next;
+           }
+           current = current->next;
+      }
+      
+     if(l1 == 0)
+          current->next = l2;
+     else
+          current->next = l1;
+     return (head);
+   }                     
 };
