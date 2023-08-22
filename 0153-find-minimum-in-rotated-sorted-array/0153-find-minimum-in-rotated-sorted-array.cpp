@@ -1,17 +1,24 @@
-class Solution {
+class Solution
+{
 public:
-    int findMin(vector<int>& nums) {
-        int resmin(INT_MAX),l(0),r(nums.size()-1),midl;
-      
+    int findMin(vector<int> &nums)
+    {
+        int res(nums[0]),l(0),r(nums.size()-1),mid;
+
         while(l <= r)
         {
             if(nums[l] < nums[r])
-                resmin = min(resmin,nums[l]);
+            {
+                 res = min(res,nums[l]);
+                 break;
+            }
+            mid = l + (r - l) / 2;
+             res = min(res,nums[mid]);
+            if(nums[mid] >= nums[l])
+                l = mid + 1;
             else
-                resmin = min(resmin,nums[r]);
-            r--;
-            l++;
+                r = mid - 1;   
         }
-        return (resmin);
+        return (res);
     }
 };
